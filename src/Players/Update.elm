@@ -65,7 +65,8 @@ update action model =
           errorHandler error model
 
     CreatePlayer ->
-      ( model.players, create new )
+      ( model.players, Effects.map HopAction (navigateTo "/players/new") )
+      --( model.players, create new )
 
     CreatePlayerDone result ->
       case result of
@@ -169,6 +170,7 @@ update action model =
       let
         path = "/players"
         fxForPlayer player =
+          -- Handle 0 for an id which is a new entry
           if player.id /= playerId then
             Effects.none
           else

@@ -1,5 +1,6 @@
 module View (..) where
 
+import Debug
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import String
@@ -38,6 +39,12 @@ flash address model =
 page : Signal.Address Action -> AppModel -> Html.Html
 page address model =
   case model.routing.route of
+    Routing.PlayerNewRoute ->
+      let
+        _ = Debug.log "--------------- IN NEW ROUTE"
+      in 
+        playerNewPage address model
+
     Routing.PlayersRoute ->
       playersPage address model
 
@@ -45,7 +52,10 @@ page address model =
       playerEditPage address model playerId
 
     Routing.NotFoundRoute ->
-      notFoundView
+      let
+        _ = Debug.log "--------------- NOT FOUND"
+      in 
+        notFoundView
 
 playersPage : Signal.Address Action -> AppModel -> Html.Html
 playersPage address model =
@@ -55,6 +65,15 @@ playersPage address model =
       }
   in
     Players.List.view (Signal.forwardTo address PlayersAction) viewModel
+
+playerNewPage : Signal.Address Action -> AppModel -> Html.Html
+playerNewPage address model =
+  let
+    viewModel =
+      { player = Players.Models.new
+      }
+  in
+     Players.Edit.view (Signal.forwardTo address PlayersAction) viewModel
 
 playerEditPage : Signal.Address Action -> AppModel -> PlayerId -> Html.Html
 playerEditPage address model playerId =
@@ -67,9 +86,9 @@ playerEditPage address model playerId =
     case maybePlayer of
       Just player ->
         let
-            viewModel =
-              { player = player
-              }
+          viewModel =
+            { player = player
+            }
         in
            Players.Edit.view (Signal.forwardTo address PlayersAction) viewModel
 
