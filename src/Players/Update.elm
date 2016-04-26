@@ -180,7 +180,8 @@ update action model =
           List.map fxForPlayer model.players
             |> Effects.batch
       in 
-        ( model.players, Effects.map HopAction (navigateTo path) )
+        -- Need to batch up the save effect with the hop effect.
+        ( model.players, Effects.batch [fx, Effects.map HopAction (navigateTo path)] )
 
     TaskDone () ->
       noEffect model.players
