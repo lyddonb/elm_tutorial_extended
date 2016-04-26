@@ -13,6 +13,7 @@ import Players.Models exposing (PlayerId)
 type Route
   = PlayersRoute
   | PlayerEditRoute PlayerId
+  | FooBarCreateRoute
   | NotFoundRoute
 
 type Action
@@ -51,6 +52,10 @@ playersMatcher : PathMatcher Route
 playersMatcher =
   match1 PlayersRoute "/players"
 
+foobarCreateMatcher : PathMatcher Route
+foobarCreateMatcher =
+  match1 FooBarCreateRoute "/foobar/new"
+
 playerEditMatcher : PathMatcher Route
 playerEditMatcher =
   match3 PlayerEditRoute "/players/" int "/edit"
@@ -60,6 +65,7 @@ matchers =
   [ indexMatcher
   , playersMatcher
   , playerEditMatcher
+  , foobarCreateMatcher
   ]
 
 router : Router Route

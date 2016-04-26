@@ -13,6 +13,8 @@ import Players.List
 import Players.Edit
 import Players.Models exposing (PlayerId)
 
+import FooBar.Form
+
 
 view : Signal.Address Action -> AppModel -> Html
 view address model =
@@ -43,6 +45,9 @@ page address model =
 
     Routing.PlayerEditRoute playerId ->
       playerEditPage address model playerId
+
+    Routing.FooBarCreateRoute ->
+      foobarCreatePage address model
 
     Routing.NotFoundRoute ->
       notFoundView
@@ -75,6 +80,15 @@ playerEditPage address model playerId =
 
       Nothing -> 
         notFoundView
+
+foobarCreatePage : Signal.Address Action -> AppModel -> Html.Html
+foobarCreatePage address model =
+  let
+    viewModel =
+      { form = model.fooForm 
+      }
+  in
+    FooBar.Form.view (Signal.forwardTo address FooBarAction) viewModel
 
 notFoundView : Html.Html
 notFoundView =

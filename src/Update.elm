@@ -8,6 +8,7 @@ import Models exposing (..)
 import Actions exposing (..)
 import Routing
 import Players.Update
+import FooBar.Form
 
 
 update : Action -> AppModel -> ( AppModel, Effects Action )
@@ -25,6 +26,19 @@ update action model =
           Players.Update.update subAction updateModel
       in
         ( { model | players = updatedPlayers }, Effects.map PlayersAction fx )
+
+    FooBarAction subAction ->
+      let
+         --TODO: Just pass around list 
+        updateModel =
+          { form = model.fooForm
+          --, foobars = model.foobars
+          }
+        ( updatedForm, fx ) =
+          FooBar.Form.update subAction updateModel
+      in
+        ( { model | fooForm = updatedForm.form }, Effects.map FooBarAction fx )
+
 
     RoutingAction subAction ->
       let
