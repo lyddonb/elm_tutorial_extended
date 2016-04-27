@@ -46,31 +46,6 @@ validate =
     (get "bar" email)
     (get "baz" bool)
 
-getFooFromModel : FormModel -> Foo
---getFooFromModel : Form a Foo -> Foo
-getFooFromModel formModel =
-  new
-  --let 
-    --model = Form.getOutput formModel
-  --in
-    --case model of
-
-      --Just model ->
-        --model
-
-      --Nothing ->
-        --new
-
---update : Action -> FormModel -> (Foo, Effects Action)
---update action ({form} as model) =
-  --case action of
-
-    --NoOp ->
-      --((getFooFromModel model), Effects.none)
-
-    --FormAction formAction ->
-      --((getFooFromModel { model | form = Form.update formAction form }), Effects.none)
-
 update : Action -> FormModel -> (FormModel, Effects Action)
 update action ({form} as model) =
   case action of
@@ -83,9 +58,6 @@ update action ({form} as model) =
 view : Signal.Address Action -> FormModel -> Html
 view address {form} =
   let
-    --form = Form.initial [ ("bar", Field.Text foo.bar)
-                        --, ("baz", Field.Check foo.baz)] validate
-
     -- Our form event address
     formAddress = Signal.forwardTo address FormAction
 

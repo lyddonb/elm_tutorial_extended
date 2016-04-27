@@ -9,6 +9,8 @@ import Models exposing (..)
 
 import Routing
 
+import Pages.NotFound exposing (notFoundView)
+
 import Players.List
 import Players.Edit
 import Players.Models exposing (PlayerId)
@@ -89,10 +91,3 @@ foobarCreatePage address model =
       }
   in
     FooBar.Form.view (Signal.forwardTo address FooBarAction) viewModel
-
-notFoundView : Html.Html
-notFoundView =
-  div
-    []
-    [ text "Not found"
-    ]
