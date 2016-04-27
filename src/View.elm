@@ -9,13 +9,12 @@ import Models exposing (..)
 
 import Routing
 
-import Pages.NotFound exposing (notFoundView)
+import Pages.NotFoundPage exposing (notFoundView)
+import Pages.FooBarPage exposing (foobarCreatePage)
 
 import Players.List
 import Players.Edit
 import Players.Models exposing (PlayerId)
-
-import FooBar.Form
 
 
 view : Signal.Address Action -> AppModel -> Html
@@ -82,12 +81,3 @@ playerEditPage address model playerId =
 
       Nothing -> 
         notFoundView
-
-foobarCreatePage : Signal.Address Action -> AppModel -> Html.Html
-foobarCreatePage address model =
-  let
-    viewModel =
-      { form = model.fooForm 
-      }
-  in
-    FooBar.Form.view (Signal.forwardTo address FooBarAction) viewModel

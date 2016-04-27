@@ -1,4 +1,4 @@
-module Pages.NotFound (..) where
+module Pages.NotFoundPage (..) where
 
 import Html exposing (..)
 
