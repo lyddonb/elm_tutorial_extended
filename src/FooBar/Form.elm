@@ -56,7 +56,7 @@ update action ({form} as model) =
       ({ model | form = Form.update formAction form }, Effects.none)
 
 view : Signal.Address Action -> FormModel -> Html
-view address {form} =
+view address form =
   let
     -- Our form event address
     formAddress = Signal.forwardTo address FormAction
@@ -71,21 +71,40 @@ view address {form} =
           text ""
 
     -- field states
-    bar = Form.getFieldAsString "bar" form
-    baz = Form.getFieldAsBool "baz" form
+    bar = Form.getFieldAsString "bar" form.form
+    baz = Form.getFieldAsBool "baz" form.form
   in
-    div []
-      [ label [] [ text "Bar" ] 
-      , Input.textInput bar formAddress []
-      , errorFor bar
-      
-      , label []
-        [ Input.checkboxInput baz formAddress []
-        , text "Baz"
-        ]
-      , errorFor baz
+     div 
+     []
+     [ nav address form
+     , div 
+        [ class "clearfix py1" ]
+        [ label [] [ text "Bar" ] 
+        , Input.textInput bar formAddress []
+        , errorFor bar
+        
+        , label []
+          [ Input.checkboxInput baz formAddress []
+          , text "Baz"
+          ]
+        , errorFor baz
 
-      , button
-        [ onClick formAddress Form.Submit ]
-        [ text "Submit" ]
+        , button
+          [ onClick formAddress Form.Submit ]
+          [ text "Submit" ]
+        ]
       ]
+
+nav : Signal.Address Action -> FormModel -> Html
+nav address form =
+  div
+    [ class "clearfix mb2 white bg-black" ]
+    [ div [ class "left p2" ] [ text "FooBars" ]
+    , div [ class "right p1" ] [ addBtn address form ]
+    ]
+
+addBtn : Signal.Address Action -> FormModel -> Html
+addBtn address {form} =
+  button
+    [ class "btn regular" ]--, onClick address CreatePlayer ]
+    [ i [class "fa fa-user-plus mr1" ] [], text "Add foobar" ]
